@@ -1,0 +1,60 @@
+<section class="dashboard-shell">
+    <header class="header-row">
+        <div>
+            <p class="eyebrow">Team Control Center</p>
+            <h1>User Dashboard</h1>
+            <p class="subtext">Track user records and role distribution in real time.</p>
+        </div>
+        <button class="add-user-btn" type="button" (click)="openAddUserModal()">Add User</button>
+    </header>
+
+    <section class="panel-grid">
+        <article class="panel chart-panel">
+            <div class="panel-head">
+                <h2>Role Distribution</h2>
+            </div>
+            <app-role-pie-chart [distribution]="roleDistribution$ | async"></app-role-pie-chart>
+        </article>
+
+        <article class="panel table-panel">
+            <div class="panel-head table-head">
+                <h2>User List</h2>
+                <input class="filter-input" type="text" [formControl]="searchControl"
+                    placeholder="Filter by name, email, or role" />
+            </div>
+
+            <div class="table-wrap">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Email</th>
+                            <th>Role</th>
+                        </tr>
+                    </thead>
+
+                    <tbody *ngIf="filteredUsers$ | async as users">
+                        <tr *ngFor="let user of users; trackBy: trackByUserId">
+                            <td>{{ user.name }}</td>
+                            <td>{{ user.email }}</td>
+                            <td>
+                                <span class="role-chip" [class]="'role-' + user.role.toLowerCase()">{{ user.role
+                                    }}</span>
+                            </td>
+                        </tr>
+
+                        <tr *ngIf="users.length === 0">
+                            <td colspan="3" class="empty-state">No matching users found.</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </article>
+    </section>
+</section>
+
+<div class="modal-backdrop" *ngIf="isAddUserModalOpen" (click)="closeAddUserModal()">
+    <section class="modal-card" (click)="$event.stopPropagation()">
+        <ng-template #modalHost></ng-template>
+    </section>
+</div>

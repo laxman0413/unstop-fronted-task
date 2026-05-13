@@ -1,0 +1,25 @@
+<form class="user-form" [formGroup]="userForm" (ngSubmit)="onSubmit()" novalidate>
+    <h3 class="title">Add New User</h3>
+
+    <label class="field-label" for="name">Name</label>
+    <input id="name" type="text" class="field-input" formControlName="name" placeholder="Enter full name" />
+    <p class="field-error" *ngIf="fieldInvalid('name')">
+        Name is required and should be at least 2 characters.
+    </p>
+
+    <label class="field-label" for="email">Email</label>
+    <input id="email" type="email" class="field-input" formControlName="email" placeholder="Enter email address" />
+    <p class="field-error" *ngIf="fieldInvalid('email')">
+        Enter a valid email address.
+    </p>
+
+    <label class="field-label" for="role">Role</label>
+    <select id="role" class="field-input" formControlName="role">
+        <option *ngFor="let role of roles" [value]="role">{{ role }}</option>
+    </select>
+
+    <div class="form-actions">
+        <button class="btn btn-secondary" type="button" (click)="onCancel()">Cancel</button>
+        <button class="btn btn-primary" type="submit">Add User</button>
+    </div>
+</form>
